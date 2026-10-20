@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تعلم الألمانية - من الصفر للاحتراف</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #34495e;
+            display: block;
+            margin-bottom: 8px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+        .section {
+            background: #f8f9fa;
+            border-right: 4px solid #27ae60;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #27ae60;
+            font-size: 18px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: inherit;
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇩🇪 تطبيق تعلم اللغة الألمانية الشامل</h1>
+    
+    <label for="levelSelect">اختر المستوى التعليمي:</label>
+    <select id="levelSelect" onchange="updateContent()">
+        <option value="A1">المستوى A1 (المبتدئ)</option>
+        <option value="A2">المستوى A2 (الأساسي)</option>
+        <option value="B1">المستوى B1 (المتوسط)</option>
+        <option value="B2">المستوى B2 (فوق المتوسط)</option>
+        <option value="C1">المستوى C1 (المتقدم)</option>
+        <option value="C2">المستوى C2 (الإتقان التام)</option>
+    </select>
+
+    <div class="section">
+        <h3>📌 قواعد اللغة</h3>
+        <pre id="grammarText"></pre>
+    </div>
+
+    <div class="section">
+        <h3>⚡ أهم الأفعال</h3>
+        <pre id="verbsText"></pre>
+    </div>
+
+    <div class="section">
+        <h3>📝 التدريبات والأمثلة</h3>
+        <pre id="exercisesText"></pre>
+    </div>
+</div>
+
+<script>
+const data = {
+    "A1": {
+        "grammar": "1. الأبجدية الألمانية والنطق الصحيح (Alphabet & Aussprache).\n2. الضمائر الشخصية في حالة الرفع (Personalpronomen: ich, du, er, sie...).\n3. تصريف الأفعال المنتظمة مع الضمائر (Endungen: -e, -st, -t, -en).\n4. الأفعال المساعدة الأساسية: sein (يكون) و haben (يملك).\n5. تكوين الجملة البسيطة وأدوات الاستفهام (W-Fragen: Wer, Was, Wo, Wie).\n6. أدوات التعريف والتنكير (Bestimmte & Unbestimmte Artikel) في الرفع والنصب.\n7. النفي باستخدام (nicht) و (kein).",
+        "verbs": "• sein (يكون)\n• haben (يملك)\n• kommen (يأتي)\n• wohnen (يسكن)\n• lernen (يتعلم)\n• sprechen (يتحدث)\n• machen (يفعل)\n• gehen (يذهب)\n• essen (يأكل)\n• trinken (يشرب)",
+        "exercises": "سؤال 1: تصريف الفعل: Ich ... (lernen) Deutsch.\nالإجابة الصحيحة: lerne\n\nسؤال 2: أداة النفي المناسبة: Das ist ... Buch. (استخدم kein/nicht)\nالإجابة الصحيحة: kein"
+    },
+    "A2": {
+        "grammar": "1. الأفعال الناقصة أو المساعدة (Modalverben: können, wollen, müssen, dürfen, sollen, möchten).\n2. زمن الماضي التام البسيط (Perfekt) واستخدام haben/sein مع اسم المفعول.\n3. حروف الجر التي يأتي بعدها حالة النصب (Akkusativ-Präpositionen).\n4. حروف الجر التي يأتي بعدها حالة الجر (Dativ-Präpositionen).\n5. صفات المقارنة والتفضيل (Komparativ & Superlativ).",
+        "verbs": "• können (يستطيع)\n• wollen (يريد)\n• müssen (يجب)\n• wissen (يعرف)\n• treffen (يلتقي)\n• finden (يجد)\n• anfangen (يبدأ)",
+        "exercises": "سؤال 1: Wir ... (können) gut schwimmen.\nالإجابة الصحيحة: können\n\nسؤال 2: اختر الحرف المناسب: Ich fahre ... dem Auto.\nالإجابة الصحيحة: mit"
+    },
+    "B1": {
+        "grammar": "1. الجمل الجانبية والروابط (Nebensätze mit weil, dass, wenn, ob).\n2. زمن الماضي البسيط (Präteritum) لأفعال الأساس.\n3. المبني للمجهول في المضارع (Passiv im Präsens).\n4. الضمائر الموصولة (Relativpronomen).",
+        "verbs": "• anbieten (يعرض)\n• teilnehmen (يشارك)\n• stattfinden (يحدث/يقام)\n• vorschlagen (يقترح)",
+        "exercises": "سؤال: Ich bleibe zu Hause, ... ich krank bin.\nالإجابة الصحيحة: weil"
+    },
+    "B2": {
+        "grammar": "1. الجمل الموصولة المتقدمة وتطبيقاتها.\n2. الروابط التناقضية والسببية المتقدمة (obwohl, trotz).\n3. المبني للمجهول مع الأفعال الناقصة.\n4. صيغة التمني والافتراض (Konjunktiv II).",
+        "verbs": "• bezweifeln (يشك في)\n• empfinden (يشعر بـ)\n• voraussetzen (يفترض)",
+        "exercises": "تدريبات صياغة جمل مركبة متقدمة واستخدام الأفعال الانعكاسية المعقدة."
+    },
+    "C1": {
+        "grammar": "1. Tراكيب بديلة لحروف الجر المتقدمة.\n2. صيغة التمني غير المباشر (Konjunktiv I في الصحافة).\n3. تحويل الجمل إلى أسماء وتراكيب اسمية معقدة (Nominalstil).",
+        "verbs": "• hervorrufen (يثير/يسبب)\n• beanspruchen (يستغرق/يطالب)\n• sich entpuppen (يتكشف عن)",
+        "exercises": "تحليل نصوص أدبية واقتصادية وصحفية متقدمة."
+    },
+    "C2": {
+        "grammar": "1. التعبيرات الاصطلاحية والمجازية العميقة (Redewendungen).\n2. دقة الفروق الدلالية الدقيقة بين المرادفات الألمانية النادرة.\n3. القواعد المتقدمة جداً للغة الأدبية والأكاديمية.",
+        "verbs": "• sich echauffieren (ينفعل/يحتد)\n• fabrizieren (يصنع بإتقان)\n• prokrastinieren (يسوّف/يؤجل)",
+        "exercises": "كتابة مقالات أكاديمية ومحاكاة الناطق الأصلي (Muttersprachler)."
+    }
+};
+
+function updateContent() {
+    const selected = document.getElementById('levelSelect').value;
+    const currentData = data[selected];
+    document.getElementById('grammarText').innerText = currentData.grammar;
+    document.getElementById('verbsText').innerText = currentData.verbs;
+    document.getElementById('exercisesText').innerText = currentData.exercises;
+}
+
+// تحميل المستوى الأول افتراضياً
+updateContent();
+</script>
+
+</body>
+</html>
