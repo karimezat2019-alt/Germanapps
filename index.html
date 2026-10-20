@@ -1,0 +1,306 @@
+import tkinter as tk
+from tkinter import ttk
+import tkinter.font as tkfont
+
+german_app_data = {
+    "المستوى A1 (المبتدئ)": {
+        "قواعد": (
+            "1. الأبجدية الألمانية والنطق الصحيح.\n"
+            "2. الضمائر الشخصية في حالة الرفع (Nominativ).\n"
+            "3. تصريف الأفعال المنتظمة مع الضمائر.\n"
+            "4. الأفعال المساعدة الأساسية: sein و haben.\n"
+            "5. تكوين الجملة البسيطة وأدوات الاستفهام.\n"
+            "6. أدوات التعريف والتنكير في الرفع والنصب.\n"
+            "7. النفي باستخدام nicht و kein."
+        ),
+        "أفعال": (
+            "• sein (يكون)\n"
+            "• haben (يملك)\n"
+            "• kommen (يأتي)\n"
+            "• wohnen (يسكن)\n"
+            "• lernen (يتعلم)\n"
+            "• sprechen (يتحدث)\n"
+            "• machen (يفعل)\n"
+            "• gehen (يذهب)"
+        ),
+        "تدريبات": (
+            "سؤال 1: تصريف الفعل: Ich ... (lernen) Deutsch.\n"
+            "الإجابة الصحيحة: lerne\n\n"
+            "سؤال 2: أداة النفي: Das ist ... Buch. (kein/nicht)\n"
+            "الإجابة الصحيحة: kein"
+        )
+    },
+    "المستوى A2 (المستوى الأساسي)": {
+        "قواعد": (
+            "1. الأفعال الناقصة (Modalverben: können, wollen, müssen).\n"
+            "2. زمن الماضي التام البسيط (Perfekt).\n"
+            "3. حروف الجر التي يأتي بعدها حالة النصب (Akkusativ).\n"
+            "4. حروف الجر التي يأتي بعدها حالة الجر (Dativ).\n"
+            "5. صفات المقارنة والتفضيل."
+        ),
+        "أفعال": (
+            "• können (يستطيع)\n"
+            "• wollen (يريد)\n"
+            "• müssen (يجب)\n"
+            "• wissen (يعرف)\n"
+            "• treffen (يلتقي)\n"
+            "• finden (يجد)"
+        ),
+        "تدريبات": (
+            "سؤال 1: Wir ... (können) gut schwimmen.\n"
+            "الإجابة الصحيحة: können"
+        )
+    },
+    "المستوى B1 (المستوى المتوسط)": {
+        "قواعد": (
+            "1. الجمل الجانبية والروابط (weil, dass, wenn).\n"
+            "2. زمن الماضي البسيط (Präteritum).\n"
+            "3. المبني للمجهول في المضارع (Passiv).\n"
+            "4. الضمائر الموصولة."
+        ),
+        "أفعال": "• anbieten\n• teilnehmen\n• stattfinden\n• vorschlagen",
+        "تدريبات": (
+            "سؤال: Ich bleibe zu Hause, ... ich krank bin.\n"
+            "الإجابة: weil"
+        )
+    },
+    "المستوى B2 (فوق المتوسط)": {
+        "قواعد": (
+            "1. الجمل الموصولة المتقدمة.\n"
+            "2. الروابط التناقضية (obwohl, trotz).\n"
+            "3. صيغة التمني (Konjunktiv II)."
+        ),
+        "أفعال": "• bezweifeln\n• empfinden\n• voraussetzen",
+        "تدريبات": "صياغة جمل مركبة متقدمة."
+    },
+    "المستوى C1 (المستوى المتقدم)": {
+        "قواعد": (
+            "1. التراكيب البديلة لحروف الجر.\n"
+            "2. صيغة التمني غير المباشر (Konjunktiv I).\n"
+            "3. تحويل الجمل لأسماء معقدة."
+        ),
+        "أفعال": "• hervorrufen\n• beanspruchen\n• sich entpuppen",
+        "تدريبات": "تحليل نصوص أدبية وصحفية متقدمة."
+    },
+    "المستوى C2 (الإتقان التام)": {
+        "قواعد": (
+            "1. التعبيرات الاصطلاحية العميقة (Redewendungen).\n"
+            "2. دقة الفروق الدلالية بين المرادفات.\n"
+            "3. القواعد المتقدمة جداً للغة الأدبية."
+        ),
+        "أفعال": "• sich echauffieren\n• fabrizieren\n• prokrastinieren",
+        "تدريبات": "محاكاة الناطق الأصلي وكتابة مقالات أكاديمية."
+    }
+}
+
+
+class GermanApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("تطبيق تعلم الألمانية")
+        self.root.geometry("650x650")
+        self.root.minsize(450, 500)
+        self.root.configure(bg="#F2F5F9")
+
+        self.setup_style()
+        self.create_widgets()
+        self.show()
+
+    def setup_style(self):
+        style = ttk.Style()
+        style.configure(
+            "TCombobox",
+            padding=6,
+            font=("Arial", 11)
+        )
+
+    def create_widgets(self):
+        title = tk.Label(
+            self.root,
+            text="تطبيق تعلم الألمانية",
+            font=("Arial", 20, "bold"),
+            bg="#F2F5F9",
+            fg="#183153"
+        )
+        title.pack(pady=(18, 4))
+
+        subtitle = tk.Label(
+            self.root,
+            text="من المستوى A1 إلى C2",
+            font=("Arial", 11),
+            bg="#F2F5F9",
+            fg="#596579"
+        )
+        subtitle.pack(pady=(0, 12))
+
+        controls = tk.Frame(self.root, bg="#F2F5F9")
+        controls.pack(fill="x", padx=20)
+
+        self.level_var = tk.StringVar(
+            value="المستوى A1 (المبتدئ)"
+        )
+
+        menu = ttk.Combobox(
+            controls,
+            textvariable=self.level_var,
+            values=list(german_app_data.keys()),
+            state="readonly",
+            justify="right",
+            font=("Arial", 11)
+        )
+        menu.pack(fill="x", pady=5)
+        menu.bind("<<ComboboxSelected>>", lambda event: self.show())
+
+        btn = tk.Button(
+            controls,
+            text="عرض المحتوى",
+            command=self.show,
+            bg="#247A55",
+            fg="white",
+            activebackground="#195E40",
+            activeforeground="white",
+            font=("Arial", 12, "bold"),
+            relief="flat",
+            cursor="hand2",
+            pady=8
+        )
+        btn.pack(fill="x", pady=8)
+
+        content_frame = tk.Frame(
+            self.root,
+            bg="white",
+            highlightbackground="#DCE3EC",
+            highlightthickness=1
+        )
+        content_frame.pack(
+            fill="both",
+            expand=True,
+            padx=20,
+            pady=(8, 20)
+        )
+
+        scrollbar = ttk.Scrollbar(content_frame)
+        scrollbar.pack(side="right", fill="y")
+
+        self.text_area = tk.Text(
+            content_frame,
+            wrap="word",
+            font=("Arial", 12),
+            bg="white",
+            fg="#263445",
+            relief="flat",
+            padx=14,
+            pady=12,
+            spacing1=4,
+            spacing3=5,
+            yscrollcommand=scrollbar.set
+        )
+        self.text_area.pack(
+            side="left",
+            fill="both",
+            expand=True
+        )
+
+        scrollbar.config(command=self.text_area.yview)
+
+        self.text_area.tag_configure(
+            "heading",
+            font=("Arial", 15, "bold"),
+            foreground="#183153",
+            justify="right",
+            spacing1=8,
+            spacing3=8
+        )
+
+        self.text_area.tag_configure(
+            "section",
+            font=("Arial", 13, "bold"),
+            foreground="#247A55",
+            justify="right",
+            spacing1=12,
+            spacing3=5
+        )
+
+        self.text_area.tag_configure(
+            "arabic",
+            justify="right",
+            lmargin1=8,
+            lmargin2=8,
+            rmargin=8
+        )
+
+        self.text_area.tag_configure(
+            "german",
+            justify="left",
+            lmargin1=12,
+            lmargin2=12,
+            rmargin=12,
+            foreground="#374F75"
+        )
+
+    def show(self):
+        level = self.level_var.get()
+        data = german_app_data.get(level, {})
+
+        self.text_area.config(state="normal")
+        self.text_area.delete("1.0", tk.END)
+
+        self.text_area.insert(
+            tk.END,
+            f"محتوى {level}\n",
+            "heading"
+        )
+
+        sections = [
+            ("القواعد", "قواعد"),
+            ("الأفعال والمفردات", "أفعال"),
+            ("التدريبات", "تدريبات")
+        ]
+
+        for title, key in sections:
+            self.text_area.insert(
+                tk.END,
+                f"\n{title}\n",
+                "section"
+            )
+
+            content = data.get(key, "")
+            self.insert_mixed_content(content)
+
+        self.text_area.config(state="disabled")
+        self.text_area.yview_moveto(0)
+
+    def insert_mixed_content(self, content):
+        """
+        تحسين تنسيق الأسطر التي تحتوي على العربية والألمانية.
+        هذا لا يضمن تشكيل الحروف العربية بشكل صحيح في Tkinter.
+        """
+        for line in content.splitlines():
+            stripped = line.strip()
+
+            if not stripped:
+                self.text_area.insert(tk.END, "\n")
+                continue
+
+            # السطر الذي يحتوي على جملة ألمانية مستقلة
+            if any(word in stripped for word in [
+                "Ich ", "Wir ", "Das ", "Deutsch",
+                "sein", "haben", "können"
+            ]):
+                self.text_area.insert(
+                    tk.END,
+                    stripped + "\n",
+                    "german"
+                )
+            else:
+                self.text_area.insert(
+                    tk.END,
+                    stripped + "\n",
+                    "arabic"
+                )
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = GermanApp(root)
+    root.mainloop()
